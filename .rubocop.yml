@@ -1,0 +1,15 @@
+AllCops:
+  Include:
+    - Gemfile
+    - Guardfile
+    - Rakefile
+    - barge.gemspec
+  Exclude:
+    - 'bin/**/*'
+    - 'spec/dummy/**/*'
+
+Documentation:
+  Enabled: false
+
+Encoding:
+  Enabled: false
