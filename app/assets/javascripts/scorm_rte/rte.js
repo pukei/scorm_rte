@@ -40,13 +40,18 @@ function LMSAPI(){
     console.log(this.cache);
 
     var url = 'http://localhost:3000/scorm_rte/stores/fetch?sco_instance_id='+this.SCOInstanceID;
-    console.log(url);
-    $.getJSON( url, function( data ) {
-      this.cache = data
+    var tempCache = {};
+
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      async: false
+    }).done(function( data ) {
+      tempCache = data;
     });
 
     // this.cache = JSON.parse(localStorage.getItem('k')) || {}
-
+    this.cache = tempCache;
     console.log(this.cache);
     console.log('***');
     return "true";
