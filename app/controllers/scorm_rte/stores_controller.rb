@@ -12,11 +12,5 @@ module ScormRte
 
       render nothing: true
     end
-
-    private
-
-    def scorm_rte_store_params
-      params.require(:scorm_rte_store_params).permit(:key, :value)
-    end
   end
 end
