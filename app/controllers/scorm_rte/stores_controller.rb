@@ -1,19 +1,15 @@
 module ScormRte
   class StoresController < ApplicationController
     def fetch
-      # store = Store.find(key: params[:scorm_rte_store][:key])
-      # render json: JSON.parse(store.value)
-      render text: 'RTE fetch'
+      store = Store.find_by(sco_instance_id: params[:sco_instance_id])
+      render json: (store.data||{}).to_json
     end
 
     def create
-      store = Store.find(key: params[:scorm_rte_store][:key])
+      store = Store.find_or_initialize_by(sco_instance_id: params[:scorm_rte_store][:sco_instance_id])
+      store.data = params[:scorm_rte_store][:data]
+      store.save
 
-      if store
-        store.update_attribute(value: params[:scorm_rte_store][:value])
-      else
-        Store.create(scorm_rte_store_params)
-      end
       render nothing: true
     end
 

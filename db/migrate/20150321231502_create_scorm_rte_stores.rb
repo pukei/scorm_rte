@@ -1,8 +1,8 @@
 class CreateScormRteStores < ActiveRecord::Migration
   def change
     create_table :scorm_rte_stores do |t|
-      t.string :key
-      t.text :value
+      t.string :sco_instance_id
+      t.text :data
 
       t.timestamps null: false
     end
