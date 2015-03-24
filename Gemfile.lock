@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    scorm_rte (0.0.2)
+    scorm_rte (1.0.0)
       rails (~> 4.2.1)
 
 GEM
