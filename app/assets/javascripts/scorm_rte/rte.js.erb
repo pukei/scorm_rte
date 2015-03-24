@@ -1,6 +1,7 @@
 function LMSAPI(){
   this.cache = {};
-  this.SCOInstanceID = 123456789;
+  // Defined in the LMS, must unique for each instance
+  this.SCOInstanceID = '';
 
   // 1.2
   this.LMSInitialize=LMSInitialize;
@@ -39,12 +40,13 @@ function LMSAPI(){
     console.log('initialized');
     console.log(this.cache);
 
-    var url = 'http://localhost:3000/scorm_rte/stores/fetch?sco_instance_id='+this.SCOInstanceID;
+    var url = '/scorm_rte/stores/fetch?sco_instance_id='+this.SCOInstanceID;
     var tempCache = {};
 
     $.ajax({
       url: url,
       dataType: 'json',
+      cache: false,
       async: false
     }).done(function( data ) {
       tempCache = data;
@@ -61,7 +63,6 @@ function LMSAPI(){
   //   SCORM RTE Functions - Getting and Setting Values
   // ------------------------------------------
   function LMSGetValue(varname) {
-      //alert(this.cache[varname]);
       var v = this.cache[varname];
       if(v == undefined){
           v = ""
@@ -78,22 +79,14 @@ function LMSAPI(){
   //   SCORM RTE Functions - Saving the Cache to the Database
   // ------------------------------------------
   function LMSCommit(dummyString) {
-    // code to prevent caching
-    var d = new Date();
-
-
     // create a POST-formatted list of cached data elements
-    // include only SCO-writeable data elements
-    var params = 'scorm_rte_store[sco_instance_id]='+this.SCOInstanceID+'&code='+d.getTime();
-    params += "&scorm_rte_store[data][cmi.core.lesson_location]="+urlencode(this.cache['cmi.core.lesson_location']);
-    params += "&scorm_rte_store[data][cmi.core.lesson_status]="+urlencode(this.cache['cmi.core.lesson_status']);
-    params += "&scorm_rte_store[data][cmi.core.exit]="+urlencode(this.cache['cmi.core.exit']);
-    params += "&scorm_rte_store[data][cmi.core.session_time]="+urlencode(this.cache['cmi.core.session_time']);
-    params += "&scorm_rte_store[data][cmi.core.score.raw]="+urlencode(this.cache['cmi.core.score.raw']);
-    params += "&scorm_rte_store[data][cmi.suspend_data]="+urlencode(this.cache['cmi.suspend_data']);
+    var params = 'scorm_rte_store[sco_instance_id]='+this.SCOInstanceID;
+    $.each( this.cache, function( key, value ) {
+      params += '&scorm_rte_store[data]['+key+']='+urlencode(value);
+    });
 
     // submit to the server for processing
-    var url = "http://localhost:3000/scorm_rte/stores"
+    var url = "/scorm_rte/stores"
     $.ajax({
       type: "POST",
       headers: {
@@ -102,6 +95,7 @@ function LMSAPI(){
           'Connection' : 'close'
       },
       url: url,
+      cache: false,
       data: params
     });
 
@@ -129,23 +123,18 @@ function LMSAPI(){
     }
 
     // commit cached values to the database
-      console.log('!! finish')
+    console.log('!! finish')
 
-      // console.log('***')
-      // console.log(localStorage.getItem('k'))
-      // localStorage.setItem('k', JSON.stringify(this.cache))
-      console.log(this.cache)
-      // console.log(JSON.parse(localStorage.getItem('k')))
-      // console.log('###')
+    // console.log('***')
+    // console.log(localStorage.getItem('k'))
+    // localStorage.setItem('k', JSON.stringify(this.cache))
+    console.log(this.cache)
+    // console.log(JSON.parse(localStorage.getItem('k')))
+    // console.log('###')
 
-      LMSCommit('');
-      console.log('!! finish !!')
+    LMSCommit('');
+    console.log('!! finish !!')
       /*
-    // create request object
-    var req = createRequest();
-
-    // code to prevent caching
-    var d = new Date();
 
     // set up request parameters - uses GET method
     req.open('GET','finish.php?SCOInstanceID=<?php print $SCOInstanceID; ?>&code='+d.getTime(),false);
@@ -164,7 +153,6 @@ function LMSAPI(){
     flagFinished = true;
     // return to calling program
     return "true";
-
   }
 
   // ------------------------------------------
@@ -265,7 +253,7 @@ function LMSAPI(){
       histogram['\u017E'] = '%9E';
       histogram['\u0178'] = '%9F';
 
-      // Begin with encodeURIComponent, which most resembles PHP's encoding functions
+      // Begin with encodeURIComponent
       ret = encodeURIComponent(ret);
 
       for (unicodeStr in histogram) {
@@ -273,7 +261,7 @@ function LMSAPI(){
           ret = replacer(unicodeStr, hexEscStr, ret); // Custom replace. No regexing
       }
 
-      // Uppercase for full PHP compatibility
+      // Uppercase
       return ret.replace(/(\%([a-z0-9]{2}))/g, function(full, m1, m2) {
           return "%"+m2.toUpperCase();
       });
