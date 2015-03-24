@@ -2,7 +2,8 @@ module ScormRte
   class StoresController < ApplicationController
     def fetch
       store = Store.find_by(sco_instance_id: params[:sco_instance_id])
-      render json: (store.data || {}.to_json)
+      json_data = store ? store.data : {}.to_json
+      render json: json_data
     end
 
     def create
