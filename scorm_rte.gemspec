@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = ScormRte::VERSION
   s.authors     = ["paresharma"]
   s.email       = ["paresharma@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of ScormRte."
-  s.description = "TODO: Description of ScormRte."
+  s.homepage    = "https://github.com/pukei/scorm_rte"
+  s.summary     = "Mountable Runtime Environment for SCORM RTE."
+  s.description = "This is an attempt to a mountable rails engine for SCORM RTE."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
