@@ -1,5 +1,4 @@
 module ScormRte
-
   # = ScormRte
   #
   # Generic ScormRte exception class.
