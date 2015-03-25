@@ -58,7 +58,13 @@ def unique_id
 end
 
 ```
---
+
+# TO DO
+* Add tests
+* Handle custom mount point
+* Allow export of RTE js to the host application for customization
+* Possibly implement error and diagnostics or, switch to TinCan perhaps :)
+
 
 ###### P.S. This README is still in it's primordial state (so is the gem) and will be refined in time.
 
