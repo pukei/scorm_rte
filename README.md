@@ -14,6 +14,8 @@ Then, mount the engine to your application.
 ```ruby
 # Add this line to routes.rb
 mount ScormRte::Engine, at: 'scorm_rte'
+# Or, any custom mount point
+mount ScormRte::Engine, at: 'this_is_soo_coool'
 ```
 This will provide some actions to take care of the RTE.
 ```
@@ -61,7 +63,7 @@ end
 
 # TO DO
 * Add tests
-* Handle custom mount point
+* ~~Handle custom mount point~~
 * Allow export of RTE js to the host application for customization
 * Possibly implement error and diagnostics or, switch to TinCan perhaps :)
 
