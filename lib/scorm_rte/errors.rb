@@ -6,5 +6,8 @@ module ScormRte
   end
 
   class NoScoInstanceIdError < ScormRteError
+    def message
+      'Always provide a unique SCO intance ID'
+    end
   end
 end

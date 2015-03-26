@@ -2,6 +2,8 @@ function LMSAPI(){
   this.cache = {};
   // Defined in the LMS, must unique for each instance
   this.SCOInstanceID = '';
+  this.fetchUrl = '/scorm_rte/fetch';
+  this.createUrl = '/scorm_rte';
 
   // 1.2
   this.LMSInitialize=LMSInitialize;
@@ -18,7 +20,7 @@ function LMSAPI(){
   this.GetValue=LMSGetValue;
   this.SetValue=LMSSetValue;
   this.Commit=LMSCommit;
-  this.Treminate=LMSFinish;
+  this.Terminate=LMSFinish;
   this.GetLastError=LMSGetLastError;
   this.GetDiagnostic=LMSGetDiagnostic;
   this.GetErrorString=LMSGetErrorString;
@@ -36,11 +38,7 @@ function LMSAPI(){
   //   SCORM RTE Functions - Initialization
   // ------------------------------------------
   function LMSInitialize(dummyString) {
-    console.log('***');
-    console.log('initialized');
-    console.log(this.cache);
-
-    var url = '/scorm_rte/stores/fetch?sco_instance_id='+this.SCOInstanceID;
+    var url = this.fetchUrl+'?sco_instance_id='+this.SCOInstanceID;
     var tempCache = {};
 
     $.ajax({
@@ -51,11 +49,7 @@ function LMSAPI(){
     }).done(function( data ) {
       tempCache = data;
     });
-
-    // this.cache = JSON.parse(localStorage.getItem('k')) || {}
     this.cache = tempCache;
-    console.log(this.cache);
-    console.log('***');
     return "true";
   }
 
@@ -86,7 +80,7 @@ function LMSAPI(){
     });
 
     // submit to the server for processing
-    var url = "/scorm_rte/stores"
+    var url = this.createUrl;
     $.ajax({
       type: "POST",
       headers: {
@@ -99,16 +93,6 @@ function LMSAPI(){
       data: params
     });
 
-    // process returned data - error condition
-    // if (req.status != 200) {
-    //   alert('Problem with AJAX Request in LMSCommit()');
-    //   return "false";
-    // }
-
-    // process returned data - OK
-    // else {
-    //   return "true";
-    // }
     return "true";
   }
 
@@ -123,21 +107,12 @@ function LMSAPI(){
     }
 
     // commit cached values to the database
-    console.log('!! finish')
+    this.LMSCommit(dummyString);
 
-    // console.log('***')
-    // console.log(localStorage.getItem('k'))
-    // localStorage.setItem('k', JSON.stringify(this.cache))
-    console.log(this.cache)
-    // console.log(JSON.parse(localStorage.getItem('k')))
-    // console.log('###')
-
-    LMSCommit('');
-    console.log('!! finish !!')
-      /*
+    /*
 
     // set up request parameters - uses GET method
-    req.open('GET','finish.php?SCOInstanceID=<?php print $SCOInstanceID; ?>&code='+d.getTime(),false);
+    req.open('GET','finish?SCOInstanceID='+this.SCOInstanceID+'&code='+d.getTime(),false);
 
     // submit to the server for processing
     req.send(null);
@@ -148,7 +123,7 @@ function LMSAPI(){
       return "";
     }
 
-      */
+    */
     // set finish flag
     flagFinished = true;
     // return to calling program
@@ -269,5 +244,7 @@ function LMSAPI(){
 
 }
 
+// 1.2
 window.API = new LMSAPI();
+// 2004
 window.API_1484_11 = new LMSAPI();

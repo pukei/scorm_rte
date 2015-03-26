@@ -8,11 +8,27 @@ module ScormRte
 
         def update_response
           return unless @_sco
-          txt = "<script type='text/javascript'>" \
-                "window.API.SCOInstanceID='#{@_sco.sco_instance_id}';" \
-                "window.API_1484_11.SCOInstanceID='#{@_sco.sco_instance_id}';" \
+          txt = "<script type='text/javascript'>" +
+                scorm_1_2 +
+                scorm_2004 +
                 '</script>'
           response.body += txt
+        end
+
+        private
+
+        def scorm_1_2
+          scorm_initialize('API')
+        end
+
+        def scorm_2004
+          scorm_initialize('API_1484_11')
+        end
+
+        def scorm_initialize(api)
+          "window.#{api}.SCOInstanceID='#{@_sco.sco_instance_id}';" \
+          "window.#{api}.fetchUrl='#{scorm_rte.fetch_stores_url}';" \
+          "window.#{api}.createUrl='#{scorm_rte.stores_url}';"
         end
       end
     end
