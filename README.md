@@ -4,7 +4,7 @@ This is an attempt to a mountable rails engine for SCORM RTE.
 ### Installation
 First, add the gem to your Gemfile.
 ```ruby
-gem 'scorm_rte', git: 'git@github.com:panthung/scrom-rte.git'
+gem 'scorm_rte', git: 'git@github.com:pukei/scrom-rte.git'
 ```
 And, bundle.
 ```
@@ -19,12 +19,16 @@ mount ScormRte::Engine, at: 'this_is_soo_coool'
 ```
 This will provide some actions to take care of the RTE.
 ```
-/scorm_rte        # POST
-/scorm_rte/fetch  # GET
+/scorm_rte                # POST
+/scorm_rte/fetch          # GET
+# Or
+/this_is_soo_coool        # POST
+/this_is_soo_coool/fetch  # GET
 ```
 Now, copy the migrations from the engine to the application.
 ```
 [bundle exec] rake scorm_rte:install:migrations
+[bundle exec] rake db:migrate
 ```
 Make the javascript RTE available to the application
 ```
@@ -47,13 +51,13 @@ And, make it available to the subsequent views
 Well, almost done.!!!
 One last thing, that is to assign a unique ID to each instance of the SCO. This will be be used to query the db to keep track of everything that's going on at each User/SCO level.
 
-Use the controller helper `assign_sco_instance_id(sco_instane_id)`.
+Use the controller helper `assign_sco_instance_id(sco_instance_id)`.
 
 ```ruby
 # This can be achieved in some way similar to this
 class LmsController < ApplicationController
   def launch_scorm_player
-    assign_sco_instance_id(sco_instane_id)
+    assign_sco_instance_id(sco_instance_id)
 
     # Rest of the code follows
     ...
@@ -61,7 +65,7 @@ class LmsController < ApplicationController
 
   private
 
-  def sco_instane_id
+  def sco_instance_id
     "#{current_user.id}:#{current_course.id}"
   end
 end
