@@ -49,6 +49,7 @@ function LMSAPI(){
     }).done(function( data ) {
       tempCache = data;
     });
+    this.cache = tempCache;
     return "true";
   }
 
@@ -106,7 +107,7 @@ function LMSAPI(){
     }
 
     // commit cached values to the database
-    LMSCommit('');
+    this.LMSCommit(dummyString);
 
     /*
 
@@ -243,4 +244,7 @@ function LMSAPI(){
 
 }
 
-window.API = window.API_1484_11 = new LMSAPI();
+// 1.2
+window.API = new LMSAPI();
+// 2004
+window.API_1484_11 = new LMSAPI();
