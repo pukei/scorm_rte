@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'scorm_rte/engine'
 require 'scorm_rte/errors'
 require 'scorm_rte/lms/sco'

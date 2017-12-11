@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateScormRteStores < ActiveRecord::Migration
   def change
     create_table :scorm_rte_stores do |t|
