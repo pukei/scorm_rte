@@ -16,3 +16,4 @@ pkg/
 ## Environment normalisation:
 /.bundle
 /vendor/bundle
+Gemfile.lock
