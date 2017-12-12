@@ -9,4 +9,4 @@ module ScormRte
 end
 
 ::ActionController::Base.send :include, ScormRte::Lms::Controllers::Helpers
-::ActionController::Base.after_filter :update_response
+::ActionController::Base.after_action :update_response
