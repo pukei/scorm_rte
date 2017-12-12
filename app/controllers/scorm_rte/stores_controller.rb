@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ScormRte
   class StoresController < ApplicationController
     def fetch
