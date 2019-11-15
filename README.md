@@ -4,7 +4,7 @@ This is an attempt to a mountable rails engine for SCORM RTE.
 ### Installation
 First, add the gem to your Gemfile.
 ```ruby
-gem 'scorm_rte', git: 'git@github.com:pukei/scrom-rte.git'
+gem 'scorm_rte', git: 'https://github.com/pukei/scorm_rte.git'
 ```
 And, bundle.
 ```
@@ -19,11 +19,11 @@ mount ScormRte::Engine, at: 'this_is_soo_coool'
 ```
 This will provide some actions to take care of the RTE.
 ```
-/scorm_rte                # POST
-/scorm_rte/fetch          # GET
+/scorm_rte/stores                # POST
+/scorm_rte/stores/fetch          # GET
 # Or
-/this_is_soo_coool        # POST
-/this_is_soo_coool/fetch  # GET
+/this_is_soo_coool/stores        # POST
+/this_is_soo_coool/stores/fetch  # GET
 ```
 Now, copy the migrations from the engine to the application.
 ```
